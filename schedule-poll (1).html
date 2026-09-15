@@ -1,0 +1,664 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+
+#nittei-app, #nittei-app * { box-sizing: border-box; }
+
+#nittei-app {
+  --paper: #F2EEE3;
+  --paper-raised: #FAF8F1;
+  --line: #D9D2BE;
+  --ink: #22262B;
+  --ink-soft: #6B6459;
+  --red: #B8392C;
+  --amber: #B07A22;
+  --navy: #2B3B4B;
+  --navy-soft: #56636F;
+
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  min-height: 100%;
+  padding: 28px 18px 60px;
+  line-height: 1.6;
+}
+
+#nittei-app .wrap { max-width: 640px; margin: 0 auto; }
+
+#nittei-app h1, #nittei-app h2, #nittei-app h3 {
+  font-family: 'Shippori Mincho', serif;
+  font-weight: 700;
+  margin: 0 0 6px;
+  letter-spacing: .02em;
+}
+#nittei-app h1 { font-size: 26px; }
+#nittei-app h2 { font-size: 18px; border-bottom: 1px solid var(--line); padding-bottom: 8px; margin-bottom: 14px; }
+
+#nittei-app .lede { color: var(--ink-soft); font-size: 14px; margin: 0 0 22px; }
+
+#nittei-app .rule { border: none; border-top: 1px solid var(--line); margin: 26px 0; }
+
+#nittei-app .panel {
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+  padding: 18px 18px 20px;
+  margin-bottom: 18px;
+}
+
+#nittei-app label { display: block; font-size: 12.5px; color: var(--ink-soft); margin-bottom: 5px; }
+
+#nittei-app input[type=text], #nittei-app input[type=date], #nittei-app textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+}
+#nittei-app input:focus, #nittei-app textarea:focus, #nittei-app button:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 1px;
+}
+#nittei-app textarea { resize: vertical; min-height: 56px; }
+
+#nittei-app .field { margin-bottom: 14px; }
+#nittei-app .row { display: flex; gap: 8px; }
+#nittei-app .row > * { flex: 1; }
+
+#nittei-app button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  padding: 9px 14px;
+  font-size: 14px;
+}
+#nittei-app button:hover { background: var(--paper); }
+#nittei-app button.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
+#nittei-app button.primary:hover { background: #1e2c39; }
+#nittei-app button.primary:disabled { opacity: .4; cursor: not-allowed; }
+#nittei-app button.ghost { border-color: var(--line); color: var(--ink-soft); }
+#nittei-app button.small { padding: 3px 8px; font-size: 12px; }
+#nittei-app button.danger-ghost { border-color: var(--line); color: var(--red); }
+
+#nittei-app .stack { display: flex; flex-direction: column; gap: 10px; }
+#nittei-app .hint { font-size: 12.5px; color: var(--ink-soft); margin: 6px 0 0; }
+
+#nittei-app .home-actions .panel { display: flex; flex-direction: column; gap: 10px; }
+#nittei-app .home-actions h3 { font-size: 15px; }
+
+#nittei-app .list-item {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 10px 0; border-bottom: 1px solid var(--line); gap: 10px;
+}
+#nittei-app .list-item:last-child { border-bottom: none; }
+#nittei-app .list-item a { color: var(--navy); font-weight: 500; text-decoration: none; cursor: pointer; }
+#nittei-app .list-item a:hover { text-decoration: underline; }
+#nittei-app .list-item .meta { font-size: 12px; color: var(--ink-soft); white-space: nowrap; }
+#nittei-app .empty { color: var(--ink-soft); font-size: 13.5px; padding: 6px 0; }
+
+#nittei-app .chiplist { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+#nittei-app .chip {
+  border: 1px solid var(--line); background: #fff; padding: 4px 10px 4px 4px;
+  font-size: 13px; display: flex; align-items: center; gap: 6px;
+}
+#nittei-app .chip button { border: none; background: none; padding: 0 2px; font-size: 13px; color: var(--ink-soft); }
+#nittei-app .chip button:hover { color: var(--red); background: none; }
+
+#nittei-app .gridwrap { overflow-x: auto; border: 1px solid var(--line); background: #fff; }
+#nittei-app table.grid { border-collapse: collapse; width: 100%; }
+#nittei-app table.grid th, #nittei-app table.grid td {
+  border: 1px solid var(--line); text-align: center; white-space: nowrap;
+}
+#nittei-app table.grid thead th {
+  background: var(--paper); font-weight: 500; font-size: 12.5px; padding: 6px 10px; color: var(--ink-soft);
+}
+#nittei-app table.grid thead th .colhead { display: flex; align-items: center; justify-content: center; gap: 4px; }
+#nittei-app table.grid tbody th {
+  text-align: left; font-size: 13px; padding: 6px 10px; background: var(--paper); font-weight: 500;
+}
+#nittei-app table.grid tbody th .rowhead { display: flex; align-items: center; gap: 6px; }
+#nittei-app .rmbtn {
+  border: none; background: none; color: var(--ink-soft); font-size: 12px; padding: 0 3px; line-height: 1;
+}
+#nittei-app .rmbtn:hover { color: var(--red); background: none; }
+
+#nittei-app .cell {
+  width: 46px; height: 34px; cursor: pointer; user-select: none; touch-action: none;
+  position: relative;
+}
+#nittei-app .cell.on { background: #F4E7DE; }
+#nittei-app .cell.on::after {
+  content: ''; position: absolute; inset: 6px; border: 2px solid var(--red); border-radius: 50%;
+}
+
+#nittei-app .idbox {
+  font-family: 'Shippori Mincho', serif; font-size: 22px; letter-spacing: .12em;
+  border: 1px dashed var(--navy); padding: 10px 14px; display: inline-block; margin: 6px 0 10px;
+}
+
+#nittei-app .mark-btns { display: flex; gap: 4px; }
+#nittei-app .mark-btn {
+  width: 34px; height: 34px; border: 1px solid var(--line); background: #fff; font-size: 15px;
+  display: flex; align-items: center; justify-content: center; padding: 0;
+}
+#nittei-app .mark-btn[data-mark="○"].active { background: #F4E7DE; border-color: var(--red); color: var(--red); }
+#nittei-app .mark-btn[data-mark="△"].active { background: #F6EEDD; border-color: var(--amber); color: var(--amber); }
+#nittei-app .mark-btn[data-mark="✕"].active { background: #E9EAEC; border-color: var(--navy-soft); color: var(--navy-soft); }
+
+#nittei-app table.results { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+#nittei-app table.results th, #nittei-app table.results td {
+  border: 1px solid var(--line); padding: 7px 9px; text-align: center; white-space: nowrap;
+}
+#nittei-app table.results thead th { background: var(--paper); font-weight: 500; }
+#nittei-app table.results tbody th { text-align: left; font-weight: 500; }
+#nittei-app table.results .stamp { font-weight: 700; }
+#nittei-app table.results .stamp.o { color: var(--red); }
+#nittei-app table.results .stamp.t { color: var(--amber); }
+#nittei-app table.results .stamp.x { color: var(--navy-soft); }
+#nittei-app table.results .best { background: #F4E7DE; }
+#nittei-app table.results .best-tag { font-size: 11px; color: var(--red); font-weight: 500; margin-left: 4px; }
+
+#nittei-app .toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: #fff; padding: 9px 18px; font-size: 13.5px; opacity: 0;
+  pointer-events: none; transition: opacity .2s ease; z-index: 50;
+}
+#nittei-app .toast.show { opacity: 1; }
+
+#nittei-app .back-link { font-size: 13px; color: var(--navy-soft); cursor: pointer; display: inline-block; margin-bottom: 14px; }
+#nittei-app .back-link:hover { text-decoration: underline; }
+
+#nittei-app .step-label { font-size: 12px; color: var(--ink-soft); margin-bottom: 2px; }
+</style>
+
+<div id="nittei-app"><div class="wrap" id="nittei-root">読み込み中…</div></div>
+<div class="toast" id="nittei-toast"></div>
+
+<script>
+(function(){
+  const root = document.getElementById('nittei-root');
+  const toastEl = document.getElementById('nittei-toast');
+  const WD = ['日','月','火','水','木','金','土'];
+
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    setTimeout(()=>toastEl.classList.remove('show'), 1600);
+  }
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function dispDate(iso){
+    const d = new Date(iso + 'T00:00:00');
+    return `${d.getMonth()+1}/${d.getDate()}(${WD[d.getDay()]})`;
+  }
+
+  function genId(){
+    return Math.random().toString(36).slice(2,8);
+  }
+
+  function hash(str){
+    let h = 0;
+    for (let i=0;i<str.length;i++){ h = (h*31 + str.charCodeAt(i)) | 0; }
+    return h;
+  }
+
+  // ---------- storage ----------
+  async function getPoll(id){
+    try {
+      const r = await window.storage.get('poll:' + id, true);
+      return r ? JSON.parse(r.value) : null;
+    } catch(e){ return null; }
+  }
+  async function savePoll(poll){
+    try {
+      const r = await window.storage.set('poll:' + poll.id, JSON.stringify(poll), true);
+      return !!r;
+    } catch(e){ return false; }
+  }
+  async function getMyPolls(){
+    try {
+      const r = await window.storage.get('my-polls', false);
+      return r ? JSON.parse(r.value) : [];
+    } catch(e){ return []; }
+  }
+  async function saveMyPolls(list){
+    try { await window.storage.set('my-polls', JSON.stringify(list), false); } catch(e){}
+  }
+  async function addToMyPolls(id, title){
+    const list = await getMyPolls();
+    const filtered = list.filter(p => p.id !== id);
+    filtered.unshift({ id, title, createdAt: Date.now() });
+    await saveMyPolls(filtered.slice(0, 30));
+  }
+  async function getLastName(){
+    try {
+      const r = await window.storage.get('last-name', false);
+      return r ? r.value : '';
+    } catch(e){ return ''; }
+  }
+  async function saveLastName(name){
+    try { await window.storage.set('last-name', name, false); } catch(e){}
+  }
+
+  // ---------- router ----------
+  function navigate(path){ location.hash = path; }
+  window.addEventListener('hashchange', render);
+
+  function currentRoute(){
+    const h = location.hash.replace(/^#/, '') || '/';
+    if (h === '/' || h === '') return { name: 'home' };
+    if (h === '/create') return { name: 'create' };
+    const m = h.match(/^\/poll\/([a-zA-Z0-9_-]+)/);
+    if (m) return { name: 'poll', id: m[1] };
+    return { name: 'home' };
+  }
+
+  function render(){
+    const route = currentRoute();
+    if (route.name === 'home') renderHome();
+    else if (route.name === 'create') renderCreate();
+    else if (route.name === 'poll') renderPoll(route.id);
+  }
+
+  // ---------- HOME ----------
+  async function renderHome(){
+    root.innerHTML = `
+      <h1>日程調整</h1>
+      <p class="lede">候補日をまとめて並べて、○△✕で回答を集める。決めるのはそれから。</p>
+      <div class="home-actions">
+        <div class="panel">
+          <h3>新しくつくる</h3>
+          <button class="primary" id="btn-new">＋ 新しい日程調整をつくる</button>
+        </div>
+        <div class="panel">
+          <h3>番号で開く</h3>
+          <div class="row">
+            <input type="text" id="join-id" placeholder="例: a1b2c3">
+            <button id="btn-join" style="flex:0 0 auto;">開く</button>
+          </div>
+          <p class="hint" id="join-hint"></p>
+        </div>
+      </div>
+      <hr class="rule">
+      <h2>最近つくったもの</h2>
+      <div id="recent-list">読み込み中…</div>
+    `;
+    document.getElementById('btn-new').onclick = () => navigate('/create');
+    document.getElementById('btn-join').onclick = doJoin;
+    document.getElementById('join-id').addEventListener('keydown', e => { if (e.key === 'Enter') doJoin(); });
+
+    async function doJoin(){
+      const raw = document.getElementById('join-id').value.trim();
+      const hintEl = document.getElementById('join-hint');
+      if (!raw){ hintEl.textContent = '番号を入力してください。'; return; }
+      const m = raw.match(/([a-zA-Z0-9]{4,})\s*$/);
+      const id = m ? m[1] : raw;
+      hintEl.textContent = '確認中…';
+      const poll = await getPoll(id);
+      if (poll){ navigate('/poll/' + id); }
+      else { hintEl.textContent = 'その番号の日程調整は見つかりませんでした。'; }
+    }
+
+    const list = await getMyPolls();
+    const listEl = document.getElementById('recent-list');
+    if (!list.length){
+      listEl.innerHTML = `<p class="empty">まだありません。「新しい日程調整をつくる」から始めてください。</p>`;
+      return;
+    }
+    listEl.innerHTML = list.map(p => {
+      const d = new Date(p.createdAt);
+      const dd = `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
+      return `<div class="list-item">
+        <a data-id="${esc(p.id)}" class="open-poll">${esc(p.title || '(無題)')}</a>
+        <span class="meta">${dd}・#${esc(p.id)}</span>
+      </div>`;
+    }).join('');
+    listEl.querySelectorAll('.open-poll').forEach(a => {
+      a.onclick = () => navigate('/poll/' + a.dataset.id);
+    });
+  }
+
+  // ---------- CREATE ----------
+  function renderCreate(){
+    const state = {
+      dates: [],   // [{iso, disp}]
+      times: [],   // [label]
+      selected: new Set(), // `${iso}__${timeIdx}`
+    };
+
+    root.innerHTML = `
+      <span class="back-link" id="back-home">← ホームへ戻る</span>
+      <h1>新しい日程調整</h1>
+      <div class="panel">
+        <div class="step-label">基本情報</div>
+        <div class="field">
+          <label for="f-title">タイトル</label>
+          <input type="text" id="f-title" placeholder="例: 忘年会の日程調整">
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label for="f-memo">メモ（任意）</label>
+          <textarea id="f-memo" placeholder="集合場所や補足など"></textarea>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="step-label">候補日を選ぶ</div>
+        <h2 style="border:none;padding:0;margin-bottom:10px;">日付と時間帯を追加してから、マスをドラッグでまとめて選ぶ</h2>
+        <div class="field">
+          <label>日付の範囲を追加</label>
+          <div class="row">
+            <input type="date" id="f-start">
+            <input type="date" id="f-end">
+            <button id="btn-add-dates" style="flex:0 0 auto;">追加</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>時間帯を追加</label>
+          <div class="row">
+            <input type="text" id="f-time" placeholder="例: 19:00〜21:00">
+            <button id="btn-add-time" style="flex:0 0 auto;">追加</button>
+          </div>
+        </div>
+        <div id="grid-area"></div>
+      </div>
+
+      <div class="panel">
+        <div class="step-label">確認</div>
+        <p id="count-line" class="hint" style="margin:0 0 10px;">候補は 0 件です。</p>
+        <button class="primary" id="btn-create" disabled>この内容でつくる</button>
+      </div>
+    `;
+
+    document.getElementById('back-home').onclick = () => navigate('/');
+
+    document.getElementById('btn-add-dates').onclick = () => {
+      const s = document.getElementById('f-start').value;
+      const e = document.getElementById('f-end').value;
+      if (!s || !e){ toast('開始日と終了日を選んでください'); return; }
+      let start = new Date(s + 'T00:00:00');
+      let end = new Date(e + 'T00:00:00');
+      if (start > end){ toast('終了日は開始日より後にしてください'); return; }
+      const diffDays = Math.round((end - start) / 86400000);
+      if (diffDays > 60){ toast('範囲は最大60日までにしてください'); return; }
+      const existing = new Set(state.dates.map(d => d.iso));
+      for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)){
+        const iso = d.toISOString().slice(0,10);
+        if (!existing.has(iso)){
+          state.dates.push({ iso, disp: dispDate(iso) });
+          existing.add(iso);
+        }
+      }
+      state.dates.sort((a,b) => a.iso < b.iso ? -1 : 1);
+      drawGrid();
+    };
+
+    document.getElementById('btn-add-time').onclick = () => {
+      const el = document.getElementById('f-time');
+      const v = el.value.trim();
+      if (!v){ return; }
+      if (state.times.includes(v)){ toast('同じ時間帯が既にあります'); return; }
+      state.times.push(v);
+      el.value = '';
+      drawGrid();
+    };
+    document.getElementById('f-time').addEventListener('keydown', e => {
+      if (e.key === 'Enter'){ e.preventDefault(); document.getElementById('btn-add-time').click(); }
+    });
+
+    function removeDate(iso){
+      state.dates = state.dates.filter(d => d.iso !== iso);
+      [...state.selected].forEach(k => { if (k.startsWith(iso + '__')) state.selected.delete(k); });
+      drawGrid();
+    }
+    function removeTime(idx){
+      state.times.splice(idx, 1);
+      // reindex selected keys referencing time index
+      const rebuilt = new Set();
+      state.selected.forEach(k => {
+        const [iso, tiStr] = k.split('__');
+        let ti = parseInt(tiStr, 10);
+        if (ti === idx) return;
+        if (ti > idx) ti -= 1;
+        rebuilt.add(iso + '__' + ti);
+      });
+      state.selected = rebuilt;
+      drawGrid();
+    }
+
+    let dragging = false, paintValue = true;
+    function cellKey(iso, ti){ return iso + '__' + ti; }
+
+    function drawGrid(){
+      const area = document.getElementById('grid-area');
+      if (!state.dates.length || !state.times.length){
+        area.innerHTML = `<p class="hint">日付の範囲と時間帯を追加すると、ここに表が出ます。</p>`;
+        updateCount();
+        return;
+      }
+      let html = `<p class="hint" style="margin-top:14px;">マスをドラッグ（スマホは指でなぞる）とまとめて選べます。</p>`;
+      html += `<div class="gridwrap"><table class="grid"><thead><tr><th></th>`;
+      state.times.forEach((t, ti) => {
+        html += `<th><span class="colhead">${esc(t)}<button type="button" class="rmbtn" data-rmtime="${ti}" title="この列を削除">×</button></span></th>`;
+      });
+      html += `</tr></thead><tbody>`;
+      state.dates.forEach(d => {
+        html += `<tr><th><span class="rowhead">${esc(d.disp)}<button type="button" class="rmbtn" data-rmdate="${esc(d.iso)}" title="この行を削除">×</button></span></th>`;
+        state.times.forEach((t, ti) => {
+          const on = state.selected.has(cellKey(d.iso, ti));
+          html += `<td class="cell${on?' on':''}" data-iso="${esc(d.iso)}" data-ti="${ti}"></td>`;
+        });
+        html += `</tr>`;
+      });
+      html += `</tbody></table></div>`;
+      area.innerHTML = html;
+
+      area.querySelectorAll('[data-rmdate]').forEach(b => b.onclick = () => removeDate(b.dataset.rmdate));
+      area.querySelectorAll('[data-rmtime]').forEach(b => b.onclick = () => removeTime(parseInt(b.dataset.rmtime,10)));
+
+      area.querySelectorAll('.cell').forEach(cell => {
+        cell.addEventListener('pointerdown', e => {
+          e.preventDefault();
+          dragging = true;
+          const k = cellKey(cell.dataset.iso, cell.dataset.ti);
+          paintValue = !state.selected.has(k);
+          applyCell(cell, paintValue);
+        });
+      });
+      updateCount();
+    }
+
+    document.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      if (el && el.classList && el.classList.contains('cell')){
+        applyCell(el, paintValue);
+      }
+    });
+    document.addEventListener('pointerup', () => { dragging = false; });
+
+    function applyCell(cell, value){
+      const k = cellKey(cell.dataset.iso, cell.dataset.ti);
+      if (value) state.selected.add(k); else state.selected.delete(k);
+      cell.classList.toggle('on', value);
+      updateCount();
+    }
+
+    function updateCount(){
+      const n = state.selected.size;
+      document.getElementById('count-line').textContent = `候補は ${n} 件です。`;
+      document.getElementById('btn-create').disabled = n === 0;
+    }
+
+    document.getElementById('btn-create').onclick = async () => {
+      const title = document.getElementById('f-title').value.trim();
+      if (!title){ toast('タイトルを入力してください'); document.getElementById('f-title').focus(); return; }
+      if (!state.selected.size){ toast('候補を1つ以上選んでください'); return; }
+
+      const slots = [...state.selected].map(k => {
+        const [iso, tiStr] = k.split('__');
+        const ti = parseInt(tiStr, 10);
+        return { iso, ti, time: state.times[ti] };
+      }).sort((a,b) => a.iso === b.iso ? a.ti - b.ti : (a.iso < b.iso ? -1 : 1))
+        .map((s, i) => ({ id: 's' + (i+1), date: s.iso, dateDisp: dispDate(s.iso), time: s.time }));
+
+      const id = genId();
+      const poll = {
+        id, title,
+        memo: document.getElementById('f-memo').value.trim(),
+        slots,
+        responses: {},
+        createdAt: Date.now(),
+      };
+      const btn = document.getElementById('btn-create');
+      btn.disabled = true; btn.textContent = '作成中…';
+      const ok = await savePoll(poll);
+      if (!ok){ toast('作成に失敗しました。もう一度お試しください。'); btn.disabled = false; btn.textContent = 'この内容でつくる'; return; }
+      await addToMyPolls(id, title);
+      navigate('/poll/' + id);
+    };
+  }
+
+  // ---------- POLL ----------
+  function markClass(mark){ return mark === '○' ? 'o' : mark === '△' ? 't' : 'x'; }
+  function score(mark){ return mark === '○' ? 1 : mark === '△' ? 0.5 : 0; }
+
+  async function renderPoll(id){
+    root.innerHTML = `<span class="back-link" id="back-home">← ホームへ戻る</span><p>読み込み中…</p>`;
+    document.getElementById('back-home').onclick = () => navigate('/');
+
+    const poll = await getPoll(id);
+    if (!poll){
+      root.innerHTML = `
+        <span class="back-link" id="back-home2">← ホームへ戻る</span>
+        <h1>見つかりませんでした</h1>
+        <p class="lede">番号 #${esc(id)} の日程調整は見つかりませんでした。番号を確認してください。</p>
+      `;
+      document.getElementById('back-home2').onclick = () => navigate('/');
+      return;
+    }
+    await addToMyPolls(id, poll.title);
+
+    const lastName = await getLastName();
+    const myMarks = (lastName && poll.responses[lastName]) ? poll.responses[lastName] : {};
+
+    root.innerHTML = `
+      <span class="back-link" id="back-home">← ホームへ戻る</span>
+      <h1>${esc(poll.title || '(無題)')}</h1>
+      ${poll.memo ? `<p class="lede">${esc(poll.memo)}</p>` : ''}
+      <div class="idbox">#${esc(poll.id)}</div>
+      <div>
+        <button class="ghost" id="btn-copy-id" style="margin-right:6px;">番号をコピー</button>
+      </div>
+
+      <hr class="rule">
+      <h2>回答する</h2>
+      <div class="panel">
+        <div class="field">
+          <label for="r-name">あなたの名前</label>
+          <input type="text" id="r-name" placeholder="例: 田中" value="${esc(lastName)}">
+        </div>
+        <div id="mark-rows" class="stack"></div>
+        <button class="primary" id="btn-save-response" style="margin-top:14px;">回答を保存</button>
+      </div>
+
+      <hr class="rule">
+      <h2>集計（${Object.keys(poll.responses).length}人が回答）</h2>
+      <div id="results-area"></div>
+    `;
+    document.getElementById('back-home').onclick = () => navigate('/');
+    document.getElementById('btn-copy-id').onclick = () => {
+      navigator.clipboard?.writeText(poll.id).then(() => toast('番号をコピーしました')).catch(() => toast('コピーできませんでした'));
+    };
+
+    const marksState = Object.assign({}, myMarks);
+    const rowsEl = document.getElementById('mark-rows');
+    rowsEl.innerHTML = poll.slots.map(s => `
+      <div class="row" style="align-items:center;">
+        <span style="flex:1 1 auto;">${esc(s.dateDisp)} ${esc(s.time)}</span>
+        <span class="mark-btns" data-slot="${esc(s.id)}">
+          ${['○','△','✕'].map(m => `<button type="button" class="mark-btn${marksState[s.id]===m?' active':''}" data-mark="${m}">${m}</button>`).join('')}
+        </span>
+      </div>
+    `).join('');
+
+    rowsEl.querySelectorAll('.mark-btns').forEach(group => {
+      const slotId = group.dataset.slot;
+      group.querySelectorAll('.mark-btn').forEach(btn => {
+        btn.onclick = () => {
+          const m = btn.dataset.mark;
+          marksState[slotId] = (marksState[slotId] === m) ? undefined : m;
+          group.querySelectorAll('.mark-btn').forEach(b => b.classList.toggle('active', marksState[slotId] === b.dataset.mark));
+        };
+      });
+    });
+
+    document.getElementById('btn-save-response').onclick = async () => {
+      const name = document.getElementById('r-name').value.trim();
+      if (!name){ toast('名前を入力してください'); return; }
+      const cleaned = {};
+      Object.keys(marksState).forEach(k => { if (marksState[k]) cleaned[k] = marksState[k]; });
+      if (!Object.keys(cleaned).length){ toast('少なくとも1つ回答してください'); return; }
+
+      const btn = document.getElementById('btn-save-response');
+      btn.disabled = true; btn.textContent = '保存中…';
+      const fresh = await getPoll(id) || poll;
+      fresh.responses = fresh.responses || {};
+      fresh.responses[name] = cleaned;
+      const ok = await savePoll(fresh);
+      btn.disabled = false; btn.textContent = '回答を保存';
+      if (!ok){ toast('保存に失敗しました'); return; }
+      await saveLastName(name);
+      toast('回答を保存しました');
+      renderResults(fresh);
+      document.getElementById('results-area').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
+    renderResults(poll);
+  }
+
+  function renderResults(poll){
+    const area = document.getElementById('results-area');
+    const names = Object.keys(poll.responses);
+    if (!poll.slots.length){
+      area.innerHTML = `<p class="empty">候補がありません。</p>`;
+      return;
+    }
+    if (!names.length){
+      area.innerHTML = `<p class="empty">まだ回答がありません。</p>`;
+      return;
+    }
+    const scores = poll.slots.map(s => {
+      let total = 0, o=0,t=0,x=0;
+      names.forEach(n => {
+        const m = poll.responses[n][s.id];
+        if (m === '○') o++; else if (m === '△') t++; else if (m === '✕') x++;
+        if (m) total += score(m);
+      });
+      return { slot: s, o, t, x, total };
+    });
+    const maxTotal = Math.max(...scores.map(s => s.total));
+
+    let html = `<div class="gridwrap"><table class="results"><thead><tr><th>候補</th>`;
+    names.forEach(n => { html += `<th>${esc(n)}</th>`; });
+    html += `<th>集計</th></tr></thead><tbody>`;
+    scores.forEach(row => {
+      const isBest = row.total === maxTotal && maxTotal > 0;
+      html += `<tr class="${isBest ? 'best' : ''}"><th>${esc(row.slot.dateDisp)} ${esc(row.slot.time)}${isBest ? '<span class="best-tag">有力</span>' : ''}</th>`;
+      names.forEach(n => {
+        const m = poll.responses[n][row.slot.id];
+        html += `<td>${m ? `<span class="stamp ${markClass(m)}">${m}</span>` : '<span style="color:var(--line)">–</span>'}</td>`;
+      });
+      html += `<td>○${row.o} △${row.t} ✕${row.x}</td></tr>`;
+    });
+    html += `</tbody></table></div>`;
+    area.innerHTML = html;
+  }
+
+  render();
+})();
+</script>
